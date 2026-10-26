@@ -7,18 +7,20 @@ root.geometry("400x300")
 Canvas = tk.Canvas(root, width=400, height=260, bg="#D6F0FF")
 Canvas.pack()
 
-Canvas.create_line(140, 40, 140, 260, width=3)
-Canvas.create_line(260, 40, 260, 260, width=3)
+Canvas.create_line(153, 40, 153, 260, width=3)
+Canvas.create_line(247, 40, 247, 260, width=3)
 
 Canvas.create_line(60, 113, 340, 113, width=3)
 Canvas.create_line(60, 187, 340, 187, width=3)
 
 board = ["", "", "", "", "", "", "", "", ""]#empty list to store the data of the grid
+current_player = "X"
 
 def handel_click(event):
-    if event.x < 140:
+    global current_player
+    if event.x < 153:
         col=0
-    elif event.x < 260:
+    elif event.x < 247:
         col=1
     else:
         col=2
@@ -35,12 +37,12 @@ def handel_click(event):
 
     if col==0:
         left = 60
-        right = 140
+        right = 153
     elif col==1:
-        left = 140
-        right = 260
+        left = 153
+        right = 247
     else:
-        left = 260
+        left = 247
         right = 340
 
     #finding top and bottom of each box
@@ -66,9 +68,18 @@ def handel_click(event):
 
     if board[cell]=="":
         print("this cell is empty")
-        board[cell] = "x"
-        Canvas.create_line(left+15, top+15, right-15, bottom-15, width=4)
-        Canvas.create_line(right-15, top+15, left+15, bottom-15, width=4)
+        board[cell] = current_player
+
+        if current_player == "X":
+            Canvas.create_line(left+15, top+15, right-15, bottom-15, width=4)
+            Canvas.create_line(right-15, top+15, left+15, bottom-15, width=4)
+        else:
+            Canvas.create_oval(left+15, top+15, right-15, bottom-15, width=4)
+
+        if current_player == "X":
+            current_player = "O"
+        else:
+            current_player = "X"
     else:
         print("this cell is full")
 
